@@ -1,26 +1,43 @@
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+const getToken = (headers) => {
+  if (headers && headers.authorization) {
+    let parted = headers.authorization.split(" ");
+    if (parted.length === 2) {
+      return parted[1];
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
 
-  if (token == null) return res.sendStatus(401);
+// function authenticateToken(req, res, next) {
+//   const authHeader = req.headers["authorization"];
+//   const token = authHeader && authHeader.split(" ")[1];
 
-  jwt.verify(token, "Snippet_SecretKEY", (err, user) => {
-    if (err) return res.sendStatus(403);
+//   if (token == null) return res.sendStatus(401);
 
-    req.user = user;
-    next();
-  });
-}
+//   jwt.verify(token, "Snippet_SecretKEY", (err, user) => {
+//     if (err) return res.sendStatus(403);
 
-function generateAccessToken(username) {
-  return jwt.sign({ data: username }, "Snippet_SecretKEY", {
-    expiresIn: "1h",
-  });
-}
+//     req.user = user;
+//     next();
+//   });
+// }
+
+// function generateAccessToken(username) {
+//   return jwt.sign({ data: username }, "Snippet_SecretKEY", {
+//     expiresIn: "1h",
+//   });
+// }
+
+// module.exports = {
+//   authenticateToken,
+//   generateAccessToken,
+// };
 
 module.exports = {
-  authenticateToken,
-  generateAccessToken,
+  getToken,
 };

@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dbConfig = require("./config/db.config");
+require("dotenv").config();
 
 const auth = require("./middlewares/auth");
 const errors = require("./middlewares/errors");
@@ -25,15 +26,15 @@ mongoose
     }
   );
 
-auth.authenticateToken.unless = unless;
-app.use(
-  auth.authenticateToken.unless({
-    path: [
-      { url: "/users/login", methods: ["POST"] },
-      { url: "/users/register", methods: ["POST"] },
-    ],
-  })
-);
+// auth.authenticateToken.unless = unless;
+// app.use(
+//   auth.authenticateToken.unless({
+//     path: [
+//       { url: "/users/login", methods: ["POST"] },
+//       { url: "/users/register", methods: ["POST"] },
+//     ],
+//   })
+// );
 
 app.use(express.json());
 
