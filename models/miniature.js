@@ -16,7 +16,7 @@ const miniatureSchema = new mongoose.Schema({
     default: false,
   },
   price: {
-    type: Double,
+    type: Number,
     required: true,
   },
   inStock: {

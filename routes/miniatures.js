@@ -26,6 +26,8 @@ router.post("/", async (req, res) => {
     name: req.body.name,
     faction: req.body.faction,
     inPrint: req.body.inPrint,
+    price: req.body.price,
+    inStock: req.body.inStock,
   });
 
   try {
@@ -52,10 +54,21 @@ router.patch("/:id", async (req, res) => {
     miniature.name = req.body.name;
     miniature.faction = req.body.faction;
     miniature.inPrint = req.body.inPrint;
+    miniature.price = req.body.price;
+    miniature.inStock = req.body.inStock;
     const a1 = await miniature.save();
     res.json(a1);
   } catch (err) {
     res.send("Error");
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const miniature = await Miniature.findById(req.params.id);
+    res.json(miniature);
+  } catch (err) {
+    res.send("Error" + err);
   }
 });
 
