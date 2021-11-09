@@ -2,7 +2,7 @@
 
 //These are our imports for the user controller.js
 const passport = require("passport");
-const userService = require("../services/users.services");
+// const userService = require("../services/users.services");
 
 const { getToken } = require("../middlewares/auth");
 const settings = require("../middlewares/passport")(passport);

@@ -2,7 +2,7 @@
 //probably be contained in the minaiture controller
 //this is all of the imports needed for this
 const passport = require("passport");
-const settings = require("../config/passport")(passport);
+const settings = require("../middlewares/passport")(passport);
 const jwt = require("jsonwebtoken");
 const { getToken } = require("../middlewares/auth");
 
@@ -57,28 +57,14 @@ router.post("/", async (req, res) => {
     }
   }
 });
-//this is the update function for the miniature table, which also requires a token
-//this is split into two functions, one for removing the existing instance of the miniature, and one for posting the new details about the edited object
+// this is the update function for miniature, it can only be accessed by somebody with a token
+//It finds the existing miniature object by id thats passed into the query
+//and replaces each field with what is pushed into the request body
 router.patch("/:id", async (req, res) => {
   const token = getToken(req.headers);
   if (!token) return res.status(401);
   const user = jwt.verify(token, process.env.SECRET_KEY);
-  if (user) {
-    try {
-      const miniature = await Miniature.removeById(req.params.id);
-      const a1 = await miniature.remove();
-      res.json(a1);
-    } catch (err) {
-      res.send("Error");
-    }
-  }
-});
-
-router.patch("/:id", async (req, res) => {
-  const token = getToken(req.headers);
-  if (!token) return res.status(401);
-  const user = jwt.verify(token, process.env.SECRET_KEY);
-  if (user) {
+  if (user)
     try {
       const miniature = await Miniature.findById(req.params.id);
       miniature.name = req.body.name;
@@ -91,7 +77,6 @@ router.patch("/:id", async (req, res) => {
     } catch (err) {
       res.send("Error");
     }
-  }
 });
 //this is the delete function for the miniature table, it requires a token and finds the object by id to delete.
 router.delete("/:id", async (req, res) => {

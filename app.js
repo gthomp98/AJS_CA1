@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dbConfig = require("./config/db.config");
 require("dotenv").config();
 
+const passport = require("./middlewares/passport");
 const auth = require("./middlewares/auth");
 const errors = require("./middlewares/errors");
 
