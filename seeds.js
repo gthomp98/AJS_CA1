@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Miniature = require("./models/miniature");
 const dbConfig = require("./config/db.config");
-
+//This is a seed script, which can be executed separately from the main api. This is used to fill the api with data in order for the api to be ready for use out of the box
 mongoose
   .connect(dbConfig.db, {
     useNewUrlParser: true,
@@ -13,7 +13,7 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
+//This is a json array full of miniature objects that will be inserted into the db when the script is run
 const seedMiniatures = [
   {
     name: "Lorgar",
