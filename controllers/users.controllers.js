@@ -1,12 +1,16 @@
-// const bcryptjs = require("bcryptjs");
+//This is the user controllers, which will provide the response to any user based api requests.
+
+//These are our imports for the user controller.js
 const passport = require("passport");
 const userService = require("../services/users.services");
 
 const { getToken } = require("../middlewares/auth");
-const settings = require("../config/passport")(passport);
+const settings = require("../middlewares/passport")(passport);
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 
+//Here is our register function, this goes to our users.routes
+//this expects a body that contains a username, email and password, and has error checking in place incase a null email, password or username are detected.
 exports.register = (req, res) => {
   const { body } = req;
   let { email, username, password } = body;
@@ -33,6 +37,9 @@ exports.register = (req, res) => {
   email = email.toLowerCase(); // ignore capitalisation
   email = email.trim(); // remove spaces
 
+  //This creates a new user from the information passed in the body, by using new and referring to the user schema. It uses new email and username,
+  //however it also utilizes the generate hash function, which is used to encyrpt the password string to allow for a more secure transmission of data.
+  //This data is then saved and returned, with a token unless there is an error in which a message is printed as a response instead.
   let newUser = new User();
   newUser.email = email;
   newUser.username = username;
@@ -52,6 +59,8 @@ exports.register = (req, res) => {
   });
 };
 
+//This is the login function that goes to our users.routes.
+//This also takes a body that contains a username and a password, and has error handling for if those fields are void.
 exports.login = (req, res) => {
   const { body } = req;
   const { username, password } = body;
@@ -69,7 +78,9 @@ exports.login = (req, res) => {
       message: "Error: Password cannot be blank",
     });
   }
-
+  //This function allows us to find the user by username and throw an error if the username doesnt exist, otherwise, using the valid password method
+  //checking the password match, followed by allocating the token with "jwt" followed by a space and the token value the user has been given, this is returned with the user info,
+  //unless there is an error in which case a 401 auth failed response is sent.
   User.findOne({ username }, (err, user) => {
     if (err) throw err;
     if (!user) {
@@ -97,7 +108,8 @@ exports.login = (req, res) => {
     }
   });
 };
-
+//This is the user profile function that gets the token that is recieved by a user and verifies it, upon sucess it prints that the user is authorized
+//in every other instance a 401 will be returned.
 exports.userProfile = (req, res) => {
   const token = getToken(req.headers);
   if (!token) return res.status(401);

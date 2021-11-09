@@ -1,3 +1,4 @@
+//this is the user routes file. This contains all of the different url extensions that allow the api to access the code within the user controller.
 const passport = require("passport");
 const settings = require("../config/passport")(passport);
 const jwt = require("jsonwebtoken");

@@ -1,3 +1,6 @@
+//This is the miniature router, which contains all of the url extensions for the miniature part of the api. It also contains the methods that should
+//probably be contained in the minaiture controller
+//this is all of the imports needed for this
 const passport = require("passport");
 const settings = require("../config/passport")(passport);
 const jwt = require("jsonwebtoken");
@@ -10,7 +13,7 @@ const { userProfile } = require("../controllers/users.controllers");
 const { deleteOne } = require("../models/miniature");
 const router = express.Router();
 const Miniature = require("../models/miniature");
-
+//This is the get all function to get miniatures
 router.get("/", async (req, res) => {
   try {
     const miniatures = await Miniature.find();
@@ -19,7 +22,7 @@ router.get("/", async (req, res) => {
     res.send("Error" + err);
   }
 });
-
+//this is the get miniature by id function
 router.get("/:id", async (req, res) => {
   try {
     const miniature = await Miniature.findById(req.params.id);
@@ -28,7 +31,8 @@ router.get("/:id", async (req, res) => {
     res.send("Error" + err);
   }
 });
-
+//this is the post miniature function, that requires a token to access.
+//it pushes a new miniature object into the database by using the miniature model
 router.post("/", async (req, res) => {
   const token = await getToken(req.headers);
   if (!token) {
@@ -53,7 +57,8 @@ router.post("/", async (req, res) => {
     }
   }
 });
-
+//this is the update function for the miniature table, which also requires a token
+//this is split into two functions, one for removing the existing instance of the miniature, and one for posting the new details about the edited object
 router.patch("/:id", async (req, res) => {
   const token = getToken(req.headers);
   if (!token) return res.status(401);
@@ -88,7 +93,7 @@ router.patch("/:id", async (req, res) => {
     }
   }
 });
-
+//this is the delete function for the miniature table, it requires a token and finds the object by id to delete.
 router.delete("/:id", async (req, res) => {
   const token = getToken(req.headers);
   if (!token) return res.status(401);
