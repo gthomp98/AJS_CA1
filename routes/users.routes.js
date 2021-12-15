@@ -10,9 +10,6 @@ const router = express.Router();
 
 router.post("/register", userController.register);
 router.post("/login", userController.login);
-router.route("/user-profile").get(
-  // passport.authenticate("jwt", { session: false }),
-  userController.userProfile
-);
+router.route("/user-profile").get(userController.userProfile);
 
 module.exports = router;

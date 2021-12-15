@@ -4,11 +4,7 @@ const mongoose = require("mongoose");
 const dbConfig = require("./config/db.config");
 require("dotenv").config();
 
-const passport = require("./middlewares/passport");
-const auth = require("./middlewares/auth");
 const errors = require("./middlewares/errors");
-
-const unless = require("express-unless");
 
 const app = express();
 
@@ -46,9 +42,15 @@ app.use(errors.errorHandler);
 
 app.use("/miniatures", require("./routes/miniatures"));
 //Port 9000 is the port that the database runs on so the app is always listening for new data being sent or recieved.
-app.listen(process.env.port || 9000, function () {
-  console.log("Ready to Go");
+
+const PORT = process.env.PORT || 9000;
+app.listen(PORT, () => {
+  console.warn(`App listening on http://localhost:${PORT}`);
 });
+
+// app.listen(process.env.port || 9000, function () {
+//   console.log("Ready to Go");
+// });
 
 // const miniatureRouter = require("./routes/miniatures");
 // app.use("/miniatures", miniatureRouter);

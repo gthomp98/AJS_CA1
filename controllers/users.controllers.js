@@ -88,7 +88,7 @@ exports.login = (req, res) => {
         success: false,
         message: "Authentication failed. User not found.",
       });
-    } else if (user.validPassword(username, password)) {
+    } else if (user.validPassword(password)) {
       // check password match
       let token = jwt.sign(user.toJSON(), process.env.SECRET_KEY);
       res.json({

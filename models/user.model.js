@@ -44,9 +44,11 @@ userSchema.methods.generateHash = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 //This is the validPassword function that compares the password of the current logged in user with the password saved with their username in the database.
-userSchema.methods.validPassword = async (username, password) => {
-  let thisuser = await mongoose.model("user", userSchema).findOne({ username });
-  return bcrypt.compareSync(password, thisuser.password);
+userSchema.methods.validPassword = async (password) => {
+  //let thisuser = await mongoose.model("user", userSchema).findOne({ username });
+  return bcrypt.compareSync(password, this.password, function (result) {
+    return result;
+  });
 };
 
 const User = mongoose.model("user", userSchema);
