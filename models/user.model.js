@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const uniqueValidator = require("mongoose-unique-validator");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 //this is the user schema, this is used as a blueprint for the user object, including their username, email, password, the date they signed up, and their admin privelleges.
 const userSchema = new Schema({
   username: {
@@ -41,12 +41,12 @@ userSchema.plugin(uniqueValidator, { message: "Email is already in use" });
 
 // Encrypt passwords with generate hash and returns synchronously.
 userSchema.methods.generateHash = (password) => {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  return bcryptjs.hashSync(password, bcryptjs.genSaltSync(8), null);
 };
 //This is the validPassword function that compares the password of the current logged in user with the password saved with their username in the database.
 userSchema.methods.validPassword = async (password) => {
   //let thisuser = await mongoose.model("user", userSchema).findOne({ username });
-  return bcrypt.compareSync(password, this.password, function (result) {
+  return bcryptjs.compareSync(password, this.password, function (result) {
     return result;
   });
 };
