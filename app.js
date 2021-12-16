@@ -36,6 +36,8 @@ mongoose
 //This is where we include all of the different files we need to be global in our app.
 app.use(express.json());
 
+app.use(cors());
+
 app.use("/users", require("./routes/users.routes"));
 
 app.use(errors.errorHandler);
