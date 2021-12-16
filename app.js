@@ -6,6 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const errors = require("./middlewares/errors");
+const { response } = require("express");
 
 const app = express();
 
@@ -54,7 +55,7 @@ app.use("/miniatures", require("./routes/miniatures"));
 //Port 9000 is the port that the database runs on so the app is always listening for new data being sent or recieved.
 
 app.get("/", (req, res) => {
-  res.send("Backend working");
+  res.send(console.log(response));
 });
 
 const PORT = process.env.PORT || 9000;
