@@ -53,6 +53,10 @@ app.use(errors.errorHandler);
 app.use("/miniatures", require("./routes/miniatures"));
 //Port 9000 is the port that the database runs on so the app is always listening for new data being sent or recieved.
 
+app.get("/", (req, res) => {
+  res.send("Backend working");
+});
+
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
   console.warn(`App listening on http://localhost:${PORT}`);
