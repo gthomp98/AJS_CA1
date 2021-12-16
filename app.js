@@ -2,6 +2,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dbConfig = require("./config/db.config");
+const cors = require("cors");
 require("dotenv").config();
 
 const errors = require("./middlewares/errors");
